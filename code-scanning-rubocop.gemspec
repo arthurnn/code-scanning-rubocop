@@ -1,8 +1,11 @@
-require_relative 'lib/code/scanning/rubocop/version'
+lib = File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require_relative 'lib/code_scanning/rubocop/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "code-scanning-rubocop"
-  spec.version       = Code::Scanning::Rubocop::VERSION
+  spec.version       = CodeScanning::Rubocop::VERSION
   spec.authors       = ["Arthur Neves"]
   spec.email         = ["arthurnn@gmail.com"]
 
