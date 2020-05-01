@@ -4,7 +4,7 @@ FROM ruby:2.7.1
 RUN bundle config --global frozen 1
 
 COPY . .
-RUN rake install
+RUN gem install code-scanning-rubocop
 
 ARG GITHUB_WORKSPACE
 
