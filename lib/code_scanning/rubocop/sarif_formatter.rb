@@ -71,7 +71,7 @@ module CodeScanning
     end
 
     def file_finished(file, offenses)
-      relative_path = Pathname.new(file).relative_path_from(Pathname.new(ROOT)).to_s
+      relative_path = RuboCop::PathUtil.relative_path(file)
 
       offenses.each do |o|
         rule = set_rule(o.cop_name, o.severity.name.to_s)
