@@ -1,0 +1,5 @@
+name: 'Rubocop code-scanning'
+description: 'Rubopcop and code-scanning integration'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
