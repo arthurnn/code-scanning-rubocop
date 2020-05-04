@@ -5,8 +5,6 @@ require 'json'
 require 'active_support/all'
 require 'pathname'
 
-# TODO: fix me
-ROOT = __dir__
 module CodeScanning
 
   class SarifFormatter < RuboCop::Formatter::BaseFormatter
@@ -27,17 +25,9 @@ module CodeScanning
           },
           'results' => @results }
       ]
-      # TODO: under runs
-      #    "tool" : {
-      #      "driver" : {
-      #        "name" : "CodeQL command-line toolchain",
-      #        "organization" : "GitHub",
-      #        "semanticVersion" : "2.0.0",
-      #        "rules" : [ {
     end
 
-    Rule = Struct.new(:name, :index, :hash) do
-    end
+    Rule = Struct.new(:name, :index)
 
     def set_rule(cop_name, severity)
       if r = @rules_map[cop_name]
@@ -59,7 +49,7 @@ module CodeScanning
         'properties' => {}
       }
       @rules << h
-      @rules_map[cop_name] = Rule.new(cop_name, @rules.size - 1, h)
+      @rules_map[cop_name] = Rule.new(cop_name, @rules.size - 1)
     end
 
     def sarif_severity(cop_severity)
@@ -99,18 +89,9 @@ module CodeScanning
             }
           ],
           'partialFingerprints' => {
-            #        "primaryLocationLineHash" : "39fa2ee980eb94b0:1",
-            #        "primaryLocationStartColumnFingerprint" : "4"
+            # This will be computed by the upload action for now
           }
         }
-
-        #      #       "%<path>s:%<line>d:%<column>d: %<severity>s: %<message>s\n",
-        #      #       path: file,
-        #      #       line: o.line,
-        #      #       column: o.real_column,
-        #      #       severity: o.severity.code,
-        #      #       message: message(o)
-        #      #     )
       end
     end
 
