@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    code-scanning-rubocop (0.1.0)
+    code-scanning-rubocop (0.1.1)
       activesupport
       rubocop (~> 0.82.0)
 
