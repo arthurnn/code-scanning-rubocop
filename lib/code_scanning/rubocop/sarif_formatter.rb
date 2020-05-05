@@ -34,7 +34,6 @@ module CodeScanning
         return r
       end
 
-      desc = RuboCop::ConfigLoader.default_configuration[cop_name]['Description']
       h = {
         'id' => cop_name, 'name' => cop_name,
         'shortDescription' => {
