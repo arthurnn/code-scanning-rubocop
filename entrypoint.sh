@@ -9,7 +9,7 @@ gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
 
 bundle install
 
-bundle inject code-scanning-rubocop "$(gem list | grep code-scanning-rubocop | tr -cd '0-9.')"
+bundle inject code-scanning-rubocop 0.2.0
 
 bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
 
