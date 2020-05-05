@@ -30,6 +30,4 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'rubocop', '~> 0.82.0'
-  # TODO: remove this
-  spec.add_dependency 'activesupport'
 end

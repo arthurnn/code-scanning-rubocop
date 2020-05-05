@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-
 require 'rubocop/formatter/base_formatter'
 require 'json'
-require 'active_support/all'
 require 'pathname'
 
 module CodeScanning
@@ -53,10 +51,9 @@ module CodeScanning
     end
 
     def sarif_severity(cop_severity)
-      return cop_severity if cop_severity.in? %w[warning error]
-      return 'note' if cop_severity.in? %w[refactor convention]
-      return 'error' if cop_severity.in? %w[fatal]
-
+      return cop_severity if %w[warning error].include?(cop_severity)
+      return 'note' if %w[refactor convention].include?(cop_severity)
+      return 'error' if cop_severity == 'fatal'
       'none'
     end
 
