@@ -91,11 +91,6 @@ module CodeScanning
         kind = badge.department.to_s
         properties["tags"] = [kind.downcase]
       end
-
-       # TODO: add to properties
-#      {
-#        "name" => "Constant return type",
-#      }
       h
     end
   end
