@@ -90,7 +90,6 @@ module CodeScanning
       if badge.qualified?
         kind = badge.department.to_s
         properties["tags"] = [kind.downcase]
-        properties["kind"] = kind
       end
 
        # TODO: add to properties
