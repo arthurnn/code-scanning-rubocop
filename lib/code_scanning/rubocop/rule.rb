@@ -59,7 +59,6 @@ module CodeScanning
 
     def to_h
       properties = {
-        "id" => @cop_name,
         "precision" => "very-high",
       }
 
