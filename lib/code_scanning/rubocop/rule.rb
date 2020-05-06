@@ -61,7 +61,6 @@ module CodeScanning
       properties = {
         "id" => @cop_name,
         "precision" => "very-high",
-        "problem.severity" => sarif_severity,
       }
 
       h = {
