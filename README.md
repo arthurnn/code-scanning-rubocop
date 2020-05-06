@@ -8,7 +8,7 @@ The action, is what will run rubocop with the exporter. Note: you can only run t
 
 ## Action Installation 
 
-The easiest way to install the integration, is to use the default action. It will install the gem in your app and run it for you within the GitHub's action enviroment. To install the action create a file `.github/workflows/rubocop-analysis.yml` like the following:
+The easiest way to install the integration, is this action template bellow. It will install the gem in your app and run it for you within the GitHub's action enviroment. To install the action create a file `.github/workflows/rubocop-analysis.yml` like the following:
 
 ```
 # .github/workflows/rubocop-analysis.yml
@@ -17,9 +17,8 @@ name: "Rubocop"
 on: [push]
 
 jobs:
-  rubocop_job:
+  rubocop:
     runs-on: ubuntu-latest
-    name: Code Scanning job run
     strategy:
       fail-fast: false
 
@@ -27,8 +26,24 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+
+    # This step is not necessary if you add the gem to your Gemfile
+    - name: Install Code Scanning integration
+      run: bundle add code-scanning-rubocop --version 0.2.0 --skip-install
+
+    - name: Install dependencies
+      run: bundle install
+
     - name: Rubocop run
-      uses: arthurnn/code-scanning-rubocop/rubocop-action@master
+      run: |
+        bash -c "
+          bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+          [[ $? -ne 2 ]]
+        "
 
     - name: Upload Sarif output
       uses: github/codeql-action/upload-sarif@v1
