@@ -13,8 +13,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+
+    - name: Install dependencies
+      run: bundle install
+
     - name: Rubocop run
-      uses: arthurnn/code-scanning-rubocop/rubocop-action@master
+      run: bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
 
     - name: Upload Sarif output
       uses: github/codeql-action/upload-sarif@v1
