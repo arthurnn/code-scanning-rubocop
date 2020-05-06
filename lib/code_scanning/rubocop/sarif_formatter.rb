@@ -1,71 +1,48 @@
 # frozen_string_literal: true
-require 'rubocop/formatter/base_formatter'
 require 'json'
-require 'pathname'
+require_relative 'rule'
 
 module CodeScanning
 
   class SarifFormatter < RuboCop::Formatter::BaseFormatter
     def initialize(output, options = {})
       super
-      @sarif = {}
-    end
-
-    def started(_target_files)
-      @sarif['$schema'] = 'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json'
-      @sarif['version'] = '2.1.0'
+      @sarif = {
+        '$schema' => 'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json',
+        'version' => '2.1.0'
+      }
       @rules_map = {}
-      @results = []
       @rules = []
+      @results = []
       @sarif['runs'] = [
-        { 'tool' => {
+        {
+          'tool' => {
             'driver' => { 'name' => 'Rubocop', 'rules' => @rules }
           },
-          'results' => @results }
+          'results' => @results
+        }
       ]
     end
 
-    Rule = Struct.new(:name, :index)
-
-    def set_rule(cop_name, severity)
-      if r = @rules_map[cop_name]
-        return r
+    def get_rule(cop_name, severity)
+      r = @rules_map[cop_name]
+      if r.nil?
+        rule = Rule.new(cop_name, severity&.name)
+        r = @rules_map[cop_name] = [rule, @rules.size]
+        @rules << rule
       end
 
-      desc = RuboCop::ConfigLoader.default_configuration[cop_name]['Description']
-      h = {
-        'id' => cop_name, 'name' => cop_name,
-        'shortDescription' => {
-          'text' => desc
-        },
-        'fullDescription' => {
-          'text' => desc
-        },
-        'defaultConfiguration' => {
-          'level' => sarif_severity(severity)
-        },
-        'properties' => {}
-      }
-      @rules << h
-      @rules_map[cop_name] = Rule.new(cop_name, @rules.size - 1)
-    end
-
-    def sarif_severity(cop_severity)
-      return cop_severity if %w[warning error].include?(cop_severity)
-      return 'note' if %w[refactor convention].include?(cop_severity)
-      return 'error' if cop_severity == 'fatal'
-      'none'
+      r
     end
 
     def file_finished(file, offenses)
       relative_path = RuboCop::PathUtil.relative_path(file)
 
       offenses.each do |o|
-        rule = set_rule(o.cop_name, o.severity.name.to_s)
-
+        rule, rule_index = get_rule(o.cop_name, o.severity)
         @results << {
-          "ruleId" => rule.name,
-          'ruleIndex' => rule.index,
+          "ruleId" => rule.id,
+          'ruleIndex' => rule_index,
           'message' => {
             'text' => o.message
           },
@@ -93,8 +70,11 @@ module CodeScanning
     end
 
     def finished(_inspected_files)
-      json = JSON.pretty_generate(@sarif)
-      output.print(json)
+      output.print(sarif_json)
+    end
+
+    def sarif_json
+      JSON.pretty_generate(@sarif)
     end
   end
 end

@@ -1,4 +1,6 @@
+require 'rubocop'
+
 module CodeScanning
 end
 
-require 'code_scanning/rubocop/sarif_formatter'
+require_relative 'code_scanning/rubocop/sarif_formatter'

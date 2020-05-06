@@ -29,3 +29,7 @@ Style/HashTransformValues:
 Style/ClassAndModuleChildren:
   Exclude:
     - 'test/**/*'
+
+Metrics/AbcSize:
+  Enabled: false
+
