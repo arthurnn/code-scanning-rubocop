@@ -42,12 +42,9 @@ module CodeScanning
     # The URL for the docs are in this format:
     # https://docs.rubocop.org/en/stable/cops_layout/#layoutblockendnewline
     def query_uri
-      name = badge.cop_name.downcase
-      full_name = name
-      if badge.qualified?
-        full_name.insert(0, badge.department.downcase)
-      end
-      "https://docs.rubocop.org/en/stable/cops_#{name}/##{full_name}"
+      kind = badge.department.to_s.downcase
+      full_name = "#{kind}#{badge.cop_name.downcase}"
+      "https://docs.rubocop.org/en/stable/cops_#{kind}/##{full_name}"
     end
 
     def to_json(opts={})
@@ -89,7 +86,7 @@ module CodeScanning
           "text" => help,
           "markdown" => help,
         }
-        properties["queryURI"] = query_uri
+        properties["queryURI"] = query_uri if badge.qualified?
       end
 
       if badge.qualified?
