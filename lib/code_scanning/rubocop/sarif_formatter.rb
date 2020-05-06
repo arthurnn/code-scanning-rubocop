@@ -31,8 +31,8 @@ module CodeScanning
         r = @rules_map[cop_name] = [rule, @rules.size]
         @rules << rule
       end
-      rule = r[0]
-      rule_index = r[1]
+
+      r
     end
 
     def file_finished(file, offenses)

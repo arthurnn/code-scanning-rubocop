@@ -20,7 +20,7 @@ module CodeScanning
     end
 
     def help_empty?
-      @help.empty?
+      @help.size.zero?
     end
 
     def ==(other)
