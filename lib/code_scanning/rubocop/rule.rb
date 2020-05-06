@@ -15,8 +15,8 @@ module CodeScanning
       @cop_name
     end
 
-    def append_help(s)
-      @help.print(s)
+    def append_help(line)
+      @help.print(line)
     end
 
     def help_empty?
@@ -59,6 +59,7 @@ module CodeScanning
                              .merge(@config.for_cop(@cop))
     end
 
+    # rubocop:disable Metrics/MethodLength
     def to_h
       properties = {
         'precision' => 'very-high'
@@ -95,5 +96,6 @@ module CodeScanning
       end
       h
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end
