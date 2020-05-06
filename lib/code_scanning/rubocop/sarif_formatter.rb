@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require 'json'
-require_relative 'rule'
+require "json"
+require_relative "rule"
 
 module CodeScanning
   class SarifFormatter < RuboCop::Formatter::BaseFormatter
     def initialize(output, options = {})
       super
       @sarif = {
-        '$schema' => 'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json',
-        'version' => '2.1.0'
+        "$schema" => "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+        "version" => "2.1.0"
       }
       @rules_map = {}
       @rules = []
       @results = []
-      @sarif['runs'] = [
+      @sarif["runs"] = [
         {
-          'tool' => {
-            'driver' => { 'name' => 'Rubocop', 'rules' => @rules }
+          "tool" => {
+            "driver" => { "name" => "Rubocop", "rules" => @rules }
           },
-          'results' => @results
+          "results" => @results
         }
       ]
     end
@@ -42,27 +42,27 @@ module CodeScanning
         rule, rule_index = get_rule(o.cop_name, o.severity)
         @results << {
           "ruleId" => rule.id,
-          'ruleIndex' => rule_index,
-          'message' => {
-            'text' => o.message
+          "ruleIndex" => rule_index,
+          "message" => {
+            "text" => o.message
           },
-          'locations' => [
+          "locations" => [
             {
-              'physicalLocation' => {
-                'artifactLocation' => {
-                  'uri' => relative_path,
-                  'uriBaseId' => '%SRCROOT%',
-                  'index' => 0
+              "physicalLocation" => {
+                "artifactLocation" => {
+                  "uri" => relative_path,
+                  "uriBaseId" => "%SRCROOT%",
+                  "index" => 0
                 },
-                'region' => {
-                  'startLine' => o.first_line,
-                  'startColumn' => o.column,
-                  'endColumn' => o.last_column
+                "region" => {
+                  "startLine" => o.first_line,
+                  "startColumn" => o.column,
+                  "endColumn" => o.last_column
                 }
               }
             }
           ],
-          'partialFingerprints' => {
+          "partialFingerprints" => {
             # This will be computed by the upload action for now
           }
         }

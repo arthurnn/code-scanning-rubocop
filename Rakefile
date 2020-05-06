@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "bundler/gem_tasks"
 require "rake/testtask"
 
@@ -8,7 +10,7 @@ Rake::TestTask.new(:test) do |t|
 end
 
 task :generate_rules do
-  require_relative 'lib/code_scanning/rules_generator'
+  require_relative "lib/code_scanning/rules_generator"
 
   begin
     output_file = "#{Time.now.strftime('%Y%m%d')}.sarif"
@@ -30,4 +32,4 @@ task :generate_rules do
   end
 end
 
-task :default => :test
+task default: :test

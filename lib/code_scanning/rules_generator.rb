@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../code_scanning'
+require_relative "../code_scanning"
 
 class QHelpGenerator
   def initialize
@@ -12,9 +12,9 @@ class QHelpGenerator
     current_rule = nil
     file.each_line do |line|
       # title: skip
-      next if line[0..1] == '# '
+      next if line[0..1] == "# "
 
-      if line[0..2] == '## '
+      if line[0..2] == "## "
         current_cop = line[3..-2]
         current_rule, _index = @formatter.get_rule(current_cop, nil)
         next

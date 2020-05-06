@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pathname'
+require "pathname"
 
 module CodeScanning
   class Rule
@@ -35,10 +35,10 @@ module CodeScanning
     def sarif_severity
       cop_severity = @cop.new.send(:find_severity, nil, @severity)
       return cop_severity if %w[warning error].include?(cop_severity)
-      return 'note' if %w[refactor convention].include?(cop_severity)
-      return 'error' if cop_severity == 'fatal'
+      return "note" if %w[refactor convention].include?(cop_severity)
+      return "error" if cop_severity == "fatal"
 
-      'none'
+      "none"
     end
 
     # The URL for the docs are in this format:
@@ -62,37 +62,37 @@ module CodeScanning
     # rubocop:disable Metrics/MethodLength
     def to_h
       properties = {
-        'precision' => 'very-high'
+        "precision" => "very-high"
       }
 
       h = {
-        'id' => @cop_name,
-        'name' => @cop_name,
-        'defaultConfiguration' => {
-          'level' => sarif_severity
+        "id" => @cop_name,
+        "name" => @cop_name,
+        "defaultConfiguration" => {
+          "level" => sarif_severity
         },
-        'properties' => properties
+        "properties" => properties
       }
 
-      desc = cop_config['Description']
+      desc = cop_config["Description"]
       unless desc.nil?
-        h['shortDescription'] = { 'text' => desc }
-        h['fullDescription'] = { 'text' => desc }
-        properties['description'] = desc
+        h["shortDescription"] = { "text" => desc }
+        h["fullDescription"] = { "text" => desc }
+        properties["description"] = desc
       end
 
       unless help_empty?
         help = @help.string
-        h['help'] = {
-          'text' => help,
-          'markdown' => help
+        h["help"] = {
+          "text" => help,
+          "markdown" => help
         }
-        properties['queryURI'] = query_uri if badge.qualified?
+        properties["queryURI"] = query_uri if badge.qualified?
       end
 
       if badge.qualified?
         kind = badge.department.to_s
-        properties['tags'] = [kind.downcase]
+        properties["tags"] = [kind.downcase]
       end
       h
     end

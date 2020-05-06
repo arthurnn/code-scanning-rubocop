@@ -19,6 +19,10 @@ Lint/RaiseException:
 Lint/StructNewOverride:
   Enabled: true
 
+Style/HashSyntax:
+  EnforcedStyle: ruby19
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
 Style/ExponentialNotation:
   Enabled: true
 Style/HashEachMethods:
@@ -33,4 +37,3 @@ Style/ClassAndModuleChildren:
 
 Metrics/AbcSize:
   Enabled: false
-
