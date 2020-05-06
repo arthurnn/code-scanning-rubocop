@@ -101,7 +101,7 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'lib/code_scanning.rb'
-    - 'lib/code_scanning/rubocop/sarif_formatter.rb'
+    - 'lib/code_scanning/**/*'
 
 # Offense count: 2
 # Cop supports --auto-correct.
