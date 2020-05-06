@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'rubocop/formatter/base_formatter'
 require 'json'
 require_relative 'rule'
 
