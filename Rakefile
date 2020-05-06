@@ -11,7 +11,7 @@ task :generate_rules do
   require_relative 'lib/code_scanning/rules_generator'
 
   begin
-    output_file = "#{Time.now.strftime("%Y%m%d")}.sarif"
+    output_file = "#{Time.now.strftime('%Y%m%d')}.sarif"
     puts "Cloning rubocop repository to read manuals"
     puts
 
