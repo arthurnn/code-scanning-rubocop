@@ -87,14 +87,6 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 29
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'test/code/scanning/rubocop_test.rb'
-
 # Offense count: 2
 Style/Documentation:
   Exclude:

@@ -13,10 +13,12 @@ inherit_from: .rubocop_todo.yml
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
+
 Lint/RaiseException:
   Enabled: true
 Lint/StructNewOverride:
   Enabled: true
+
 Style/ExponentialNotation:
   Enabled: true
 Style/HashEachMethods:
@@ -25,6 +27,10 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'test/**/*'
 
 Metrics/AbcSize:
   Enabled: false
+
