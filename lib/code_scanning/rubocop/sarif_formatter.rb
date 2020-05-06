@@ -7,12 +7,10 @@ module CodeScanning
   class SarifFormatter < RuboCop::Formatter::BaseFormatter
     def initialize(output, options = {})
       super
-      @sarif = {}
-    end
-
-    def started(_target_files)
-      @sarif['$schema'] = 'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json'
-      @sarif['version'] = '2.1.0'
+      @sarif = {
+        '$schema' => 'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json',
+        'version' => '2.1.0'
+      }
       @rules_map = {}
       @rules = []
       @results = []
@@ -29,7 +27,7 @@ module CodeScanning
     def get_rule(cop_name, severity)
       r = @rules_map[cop_name]
       if r.nil?
-        rule = Rule.new(cop_name, severity.name)
+        rule = Rule.new(cop_name, severity&.name)
         r = @rules_map[cop_name] = [rule, @rules.size]
         @rules << rule
       end
