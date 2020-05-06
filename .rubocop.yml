@@ -25,3 +25,7 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'test/**/*'
