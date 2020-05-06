@@ -69,8 +69,11 @@ module CodeScanning
     end
 
     def finished(_inspected_files)
-      json = JSON.pretty_generate(@sarif)
-      output.print(json)
+      output.print(sarif_json)
+    end
+
+    def sarif_json
+      JSON.pretty_generate(@sarif)
     end
   end
 end
