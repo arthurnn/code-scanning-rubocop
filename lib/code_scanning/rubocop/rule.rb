@@ -59,7 +59,6 @@ module CodeScanning
                              .merge(@config.for_cop(@cop))
     end
 
-    # rubocop:disable Metrics/MethodLength
     def to_h
       properties = {
         "precision" => "very-high"
@@ -96,6 +95,5 @@ module CodeScanning
       end
       h
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

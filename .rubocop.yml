@@ -11,6 +11,9 @@ inherit_from: .rubocop_todo.yml
 #
 # See https://github.com/rubocop-hq/rubocop/blob/master/manual/configuration.md
 
+Layout/LineLength:
+  Exclude:
+    - 'code-scanning-rubocop.gemspec'
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
@@ -35,5 +38,9 @@ Style/ClassAndModuleChildren:
   Exclude:
     - 'test/**/*'
 
+Metrics/MethodLength:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
 Metrics/AbcSize:
   Enabled: false
