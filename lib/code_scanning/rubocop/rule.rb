@@ -1,4 +1,5 @@
 require 'pathname'
+
 module CodeScanning
 
   class Rule
@@ -17,6 +18,10 @@ module CodeScanning
       @help.print(s)
     end
 
+    def help_empty?
+      @help.size == 0
+    end
+
     def ==(other)
       self.badge.match?(other.badge)
     end
@@ -32,6 +37,17 @@ module CodeScanning
       return 'note' if %w[refactor convention].include?(cop_severity)
       return 'error' if cop_severity == 'fatal'
       'none'
+    end
+
+    # The URL for the docs are in this format:
+    # https://docs.rubocop.org/en/stable/cops_layout/#layoutblockendnewline
+    def query_uri
+      name = badge.cop_name.downcase
+      full_name = name
+      if badge.qualified?
+        full_name.insert(0, badge.department.downcase)
+      end
+      "https://docs.rubocop.org/en/stable/cops_#{name}/##{full_name}"
     end
 
     def to_json(opts={})
@@ -67,12 +83,13 @@ module CodeScanning
         properties["description"] = desc
       end
 
-      help = @help.string
-      if help.size > 0
+      unless help_empty?
+        help = @help.string
         h["help"] = {
           "text" => help,
           "markdown" => help,
         }
+        properties["queryURI"] = query_uri
       end
 
       if badge.qualified?
@@ -83,7 +100,6 @@ module CodeScanning
 
        # TODO: add to properties
 #      {
-#        "queryURI" => "https://github.com/Semmle/ql/tree/master/cpp/ql/src/Likely Bugs/ReturnConstType.ql",
 #        "name" => "Constant return type",
 #      }
       h
