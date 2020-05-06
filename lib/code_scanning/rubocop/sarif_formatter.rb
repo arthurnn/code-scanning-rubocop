@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 require 'json'
 require_relative 'rule'
 
 module CodeScanning
-
   class SarifFormatter < RuboCop::Formatter::BaseFormatter
     def initialize(output, options = {})
       super
