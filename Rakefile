@@ -7,10 +7,11 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList["test/**/*_test.rb"]
 end
 
-task :qhelp do
-  require_relative 'lib/code_scanning/qhelp_generator'
+task :generate_rules do
+  require_relative 'lib/code_scanning/rules_generator'
 
   begin
+    output_file = "#{Time.now.strftime("%Y%m%d")}.sarif"
     puts "Cloning rubocop repository to read manuals"
     puts
 
@@ -21,9 +22,9 @@ task :qhelp do
       gen.parse_file(f)
     end
     puts
-    puts "Writing qhelp sarif to 'qhelps.sarif' file"
+    puts "Writing rules help sarif to '#{output_file}' file"
     puts
-    File.write('qhelps.sarif', gen.sarif_json)
+    File.write(output_file, gen.sarif_json)
   ensure
     sh "rm -rf _tmp"
   end
