@@ -13,7 +13,7 @@ This is how it would look in your Security tab:
 
 The easiest way to install the integration, is this action template bellow. It will install the gem in your app and run it for you within the GitHub's action enviroment. To install the action create a file `.github/workflows/rubocop-analysis.yml` like the following:
 
-```
+```yaml
 # .github/workflows/rubocop-analysis.yml
 name: "Rubocop"
 
@@ -70,7 +70,7 @@ bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatte
 
 As a last step, make sure you upload the `rubocop.sarif` file to the code-scan integration. That will create the Code Scanning alerts.
 Thus, add this step to your custom rubocop workflow:
-```
+```yaml
     - name: Upload Sarif output
       uses: github/codeql-action/upload-sarif@v1
       with:
