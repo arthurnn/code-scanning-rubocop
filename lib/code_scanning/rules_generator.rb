@@ -12,7 +12,7 @@ class QHelpGenerator
     current_rule = nil
     file.each_with_index do |line, index|
       # title: skip
-      next if index == 0
+      next if index.zero?
 
       if line[0..2] == "## "
         current_cop = line[3..-2]
