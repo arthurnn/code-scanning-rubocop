@@ -8,11 +8,11 @@ class QHelpGenerator
   end
 
   def parse_file(path_to_file)
-    file = File.open(path_to_file).read
+    file = File.open(path_to_file)
     current_rule = nil
-    file.each_line do |line|
+    file.each_with_index do |line, index|
       # title: skip
-      next if line[0..1] == "# "
+      next if index == 0
 
       if line[0..2] == "## "
         current_cop = line[3..-2]
