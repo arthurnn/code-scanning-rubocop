@@ -57,8 +57,8 @@ module CodeScanning
                   "index" => 0
                 },
                 "region" => {
-                  "startLine" => o.first_line,
-                  "startColumn" => o.column,
+                  "startLine" => o.line,
+                  "startColumn" => o.real_column,
                   "endColumn" => o.last_column
                 }
               }
