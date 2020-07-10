@@ -19,7 +19,7 @@ module CodeScanning
       @sarif["runs"] = [
         {
           "tool" => {
-            "driver" => { "name" => "Rubocop", "rules" => @rules }
+            "driver" => { "name" => "RuboCop", "rules" => @rules }
           },
           "results" => @results
         }
