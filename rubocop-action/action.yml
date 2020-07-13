@@ -1,5 +1,5 @@
 name: 'Rubocop code-scanning'
-description: 'Rubocop and code-scanning integration'
+description: 'RuboCop and code-scanning integration'
 runs:
   using: 'docker'
   image: '../Dockerfile'
