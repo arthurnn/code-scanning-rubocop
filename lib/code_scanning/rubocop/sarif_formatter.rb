@@ -7,12 +7,10 @@ module CodeScanning
   class SarifFormatter < RuboCop::Formatter::BaseFormatter
     def initialize(output, options = {})
       super
-      # rubocop:disable Layout/LineLength
       @sarif = {
         "$schema" => "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
         "version" => "2.1.0"
       }
-      # rubocop:enable Layout/LineLength
       @rules_map = {}
       @rules = []
       @results = []
