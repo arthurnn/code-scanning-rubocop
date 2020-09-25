@@ -59,7 +59,7 @@ module CodeScanning
                 "region" => {
                   "startLine" => o.line,
                   "startColumn" => o.real_column,
-                  "endColumn" => o.last_column
+                  "endColumn" => o.last_column.zero? ? o.real_column : o.last_column
                 }
               }
             }
