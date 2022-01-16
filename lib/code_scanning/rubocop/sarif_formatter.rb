@@ -65,10 +65,7 @@ module CodeScanning
                 }
               }
             }
-          ],
-          "partialFingerprints" => {
-            # This will be computed by the upload action for now
-          }
+          ]
         }
       end
     end
