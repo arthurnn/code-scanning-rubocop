@@ -66,7 +66,7 @@ module CodeScanning
 
       h = {
         "id" => @cop_name,
-        "name" => @cop_name,
+        "name" => @cop_name.tr("/", "").gsub("RSpec", "Rspec"),
         "defaultConfiguration" => {
           "level" => sarif_severity
         },
