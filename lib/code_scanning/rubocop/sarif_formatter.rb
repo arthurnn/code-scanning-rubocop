@@ -17,7 +17,12 @@ module CodeScanning
       @sarif["runs"] = [
         {
           "tool" => {
-            "driver" => { "name" => "RuboCop", "rules" => @rules }
+            "driver" => {
+              "name" => "RuboCop",
+              "version" => RuboCop::Version.version,
+              "informationUri" => "https://rubocop.org",
+              "rules" => @rules
+            }
           },
           "results" => @results
         }
