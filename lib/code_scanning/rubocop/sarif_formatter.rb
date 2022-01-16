@@ -52,7 +52,6 @@ module CodeScanning
                 "artifactLocation" => {
                   "uri" => relative_path,
                   "uriBaseId" => "%SRCROOT%",
-                  "index" => 0
                 },
                 "region" => {
                   "startLine" => o.line,
