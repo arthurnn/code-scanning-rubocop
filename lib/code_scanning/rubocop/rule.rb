@@ -45,8 +45,8 @@ module CodeScanning
       return @cop.documentation_url if @cop.documentation_url
       return nil unless department_uri
 
-      full_name = "#{badge.department.to_s.downcase}#{badge.cop_name.downcase}"
-      "#{department_uri}##{full_name}"
+      anchor = "#{badge.department}#{badge.cop_name}".downcase.tr("/", "")
+      "#{department_uri}##{anchor}"
     end
 
     def department_uri
