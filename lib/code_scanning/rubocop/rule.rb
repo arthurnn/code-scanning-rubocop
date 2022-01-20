@@ -110,11 +110,14 @@ module CodeScanning
       end
 
       if help_uri
-        h["helpUri"] = help_uri
-        h["help"] = {
-          "text" => help(:text),
-          "markdown" => help(:markdown),
-        }
+        h.merge!(
+          "queryURI" => help_uri,
+          "helpUri" => help_uri,
+          "help" => {
+            "text" => help(:text),
+            "markdown" => help(:markdown)
+          }
+        )
       end
 
       h
