@@ -8,7 +8,5 @@
 
 Style/Documentation:
   Exclude:
-    - 'spec/**/*'
-    - 'test/**/*'
-    - 'lib/code_scanning.rb'
-    - 'lib/code_scanning/**/*'
+    - "spec/**/*"
+    - "test/**/*"
