@@ -110,8 +110,9 @@ module CodeScanning
       end
 
       if help_uri
+        properties["queryURI"] = help_uri
+
         h.merge!(
-          "queryURI" => help_uri,
           "helpUri" => help_uri,
           "help" => {
             "text" => help(:text),
