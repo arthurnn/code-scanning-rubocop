@@ -8,19 +8,19 @@ module CodeScanning
       @cop_name = cop_name
       @severity = severity.to_s
       @cop = RuboCop::Cop::Cop.registry.find_by_cop_name(cop_name)
-      @help = StringIO.new
     end
 
     def id
       @cop_name
     end
 
-    def append_help(line)
-      @help.print(line)
-    end
-
-    def help_empty?
-      @help.size.zero?
+    def help(format)
+      case format
+      when :text
+        "More info: #{help_uri}"
+      when :markdown
+        "[More info](#{help_uri})"
+      end
     end
 
     def ==(other)
@@ -41,12 +41,36 @@ module CodeScanning
       "none"
     end
 
-    # The URL for the docs are in this format:
-    # https://docs.rubocop.org/en/stable/cops_layout/#layoutblockendnewline
-    def query_uri
-      kind = badge.department.to_s.downcase
-      full_name = "#{kind}#{badge.cop_name.downcase}"
-      "https://docs.rubocop.org/en/stable/cops_#{kind}/##{full_name}"
+    def help_uri
+      return @cop.documentation_url if @cop.documentation_url
+      return nil unless department_uri
+
+      anchor = "#{badge.department}#{badge.cop_name}".downcase.tr("/", "")
+      "#{department_uri}##{anchor}"
+    end
+
+    def department_uri
+      case badge.department
+      when :Performance
+        "https://docs.rubocop.org/rubocop-performance/index.html"
+      when :Packaging
+        "https://docs.rubocop.org/rubocop-packaging/cops_packaging.html"
+      when :Rails
+        "https://docs.rubocop.org/rubocop-rails/cops_rails.html"
+      when :Minitest
+        "https://docs.rubocop.org/rubocop-minitest/cops_minitest.html"
+      when :RSpec
+        "https://docs.rubocop.org/rubocop-rspec/cops_rspec.html"
+      when :"RSpec/Rails"
+        "https://docs.rubocop.org/rubocop-rspec/cops_rspec_rails.html"
+      when :"RSpec/Capybara"
+        "https://docs.rubocop.org/rubocop-rspec/cops_rspec_capybara.html"
+      when :"RSpec/FactoryBot"
+        "https://docs.rubocop.org/rubocop-rspec/cops_rspec_factorybot.html"
+      else
+        STDERR.puts "WARNING: Unknown docs URI for department #{badge.department}"
+        nil
+      end
     end
 
     def to_json(opts = {})
@@ -66,7 +90,7 @@ module CodeScanning
 
       h = {
         "id" => @cop_name,
-        "name" => @cop_name,
+        "name" => @cop_name.tr("/", "").gsub("RSpec", "Rspec"),
         "defaultConfiguration" => {
           "level" => sarif_severity
         },
@@ -80,19 +104,22 @@ module CodeScanning
         properties["description"] = desc
       end
 
-      unless help_empty?
-        help = @help.string
-        h["help"] = {
-          "text" => help,
-          "markdown" => help
-        }
-        properties["queryURI"] = query_uri if badge.qualified?
-      end
-
       if badge.qualified?
         kind = badge.department.to_s
         properties["tags"] = [kind.downcase]
       end
+
+      if help_uri
+        h.merge!(
+          "queryURI" => help_uri,
+          "helpUri" => help_uri,
+          "help" => {
+            "text" => help(:text),
+            "markdown" => help(:markdown)
+          }
+        )
+      end
+
       h
     end
   end

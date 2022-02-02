@@ -17,7 +17,12 @@ module CodeScanning
       @sarif["runs"] = [
         {
           "tool" => {
-            "driver" => { "name" => "RuboCop", "rules" => @rules }
+            "driver" => {
+              "name" => "RuboCop",
+              "version" => RuboCop::Version.version,
+              "informationUri" => "https://rubocop.org",
+              "rules" => @rules
+            }
           },
           "results" => @results
         }
@@ -52,7 +57,6 @@ module CodeScanning
                 "artifactLocation" => {
                   "uri" => relative_path,
                   "uriBaseId" => "%SRCROOT%",
-                  "index" => 0
                 },
                 "region" => {
                   "startLine" => o.line,
@@ -61,10 +65,7 @@ module CodeScanning
                 }
               }
             }
-          ],
-          "partialFingerprints" => {
-            # This will be computed by the upload action for now
-          }
+          ]
         }
       end
     end
