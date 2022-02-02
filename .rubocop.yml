@@ -15,7 +15,8 @@ AllCops:
 
 Layout/LineLength:
   Exclude:
-    - 'code-scanning-rubocop.gemspec'
+    - "code-scanning-rubocop.gemspec"
+
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
@@ -38,8 +39,7 @@ Style/HashTransformValues:
   Enabled: true
 Style/ClassAndModuleChildren:
   Exclude:
-    - 'test/**/*'
-
+    - "test/**/*"
 Metrics/MethodLength:
   Enabled: false
 Metrics/BlockLength:
